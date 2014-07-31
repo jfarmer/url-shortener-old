@@ -6,12 +6,14 @@
   </div>
 <% end %>
 
+<%= link_to 'New Link', new_link_path %>
+
 <table>
   <thead>
     <tr>
       <th>Added</th>
       <th>Short URL</th>
-      <th>URL</th>
+      <th>Submitter</th>
       <th>Clicks</th>
       <th colspan="3"></th>
     </tr>
@@ -21,15 +23,16 @@
     <% @links.each do |link| %>
       <tr>
         <td><%= time_ago_in_words(link.created_at) %> ago</td>
-        <td><%= link_url(link) %></td>
-        <td><%= link.url %></td>
+        <td><%= link_to(link_url(link), link) %></td>
+        <td>
+          <% if link.user.present? %>
+            <%= link.user.email %>
+          <% else %>
+            N/A
+          <% end %>
+        </td>
         <td><%= link.clicks_count %></td>
-        <td><%= link_to 'Visit link', link %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Link', new_link_path %>
