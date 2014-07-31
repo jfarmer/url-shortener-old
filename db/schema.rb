@@ -11,21 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730203645) do
+ActiveRecord::Schema.define(version: 20_140_730_212_747) do
 
-  create_table "links", force: true do |t|
-    t.string   "short_name"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "clicks_count", default: 0, null: false
+  create_table 'links', force: true do |t|
+    t.string 'short_name'
+    t.string 'url'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+    t.integer 'clicks_count', default: 0, null: false
+    t.integer 'user_id'
   end
 
-  add_index "links", ["short_name"], name: "index_links_on_short_name", unique: true
+  add_index 'links', ['short_name'], name: 'index_links_on_short_name', unique: true
+  add_index 'links', ['user_id'], name: 'index_links_on_user_id'
 
-  create_table "users", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table 'users', force: true do |t|
+    t.string 'email',           null: false
+    t.string 'password_digest', null: false
+    t.datetime 'created_at',      null: false
+    t.datetime 'updated_at',      null: false
   end
+
+  add_index 'users', ['email'], name: 'index_users_on_email', unique: true
 
 end

@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   def index
-    @links = Link.order('created_at DESC')
+    @links = Link.order('created_at DESC').includes(:user)
   end
 
   def show
@@ -11,7 +11,7 @@ class LinksController < ApplicationController
 
       redirect_to @link.url
     else
-      render text: "No such link.", status: 404
+      render text: 'No such link.', status: 404
     end
   end
 
@@ -21,6 +21,7 @@ class LinksController < ApplicationController
 
   def create
     @link = Link.new(link_params)
+    @link.user = current_user
 
     if @link.save
       redirect_to root_url, notice: 'Link was successfully created.'
