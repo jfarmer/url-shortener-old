@@ -9,7 +9,7 @@ RSpec.describe Link, type: :model do
   end
 
   describe '#save' do
-    let(:link) { FactoryGirl.build(:link) }
+    let(:link) { build(:link) }
 
     it 'sets short_name' do
       expect {
@@ -20,8 +20,8 @@ RSpec.describe Link, type: :model do
 
   describe '#editable_by?' do
     context 'when link is not anonymous' do
-      let(:other_user) { FactoryGirl.build_stubbed(:user) }
-      let(:link)       { FactoryGirl.build_stubbed(:link_with_user) }
+      let(:other_user) { build_stubbed(:user) }
+      let(:link)       { build_stubbed(:link_with_user) }
 
       it 'returns true for the user who created the link' do
         expect(link).to be_editable_by(link.user)
@@ -37,8 +37,8 @@ RSpec.describe Link, type: :model do
     end
 
     context 'when link is anonymous' do
-      let(:other_user) { FactoryGirl.build_stubbed(:user) }
-      let(:link)       { FactoryGirl.build_stubbed(:link) }
+      let(:other_user) { build_stubbed(:user) }
+      let(:link)       { build_stubbed(:link) }
 
       it 'returns false for an actual user' do
         expect(link).to_not be_editable_by(other_user)
@@ -51,7 +51,7 @@ RSpec.describe Link, type: :model do
   end
 
   describe '#to_param' do
-    let(:link) { FactoryGirl.create(:link) }
+    let(:link) { create(:link) }
 
     it 'returns the short_name' do
       expect(link.to_param).to eq(link.short_name)
@@ -65,7 +65,7 @@ RSpec.describe Link, type: :model do
   end
 
   describe '#click!' do
-    let(:link) { FactoryGirl.create(:link) }
+    let(:link) { create(:link) }
 
     it 'increments the click count' do
       expect {
