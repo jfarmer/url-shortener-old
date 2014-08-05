@@ -14,6 +14,10 @@ class Link < ActiveRecord::Base
     update_attributes(clicks_count: clicks_count + 1)
   end
 
+  def editable_by?(user)
+    user.present? && self.user == user
+  end
+
   private
   def set_short_name
     return short_name if short_name.present?
