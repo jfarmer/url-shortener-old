@@ -24,6 +24,6 @@ Rails.application.routes.draw do
 
   controller :sessions do
     post '/login',  action: 'create'
-    get '/logout', action: 'destroy'
+    get  '/logout', action: 'destroy'
   end
 end
