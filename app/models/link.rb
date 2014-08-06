@@ -19,6 +19,7 @@ class Link < ActiveRecord::Base
   end
 
   private
+
   def set_short_name
     return short_name if short_name.present?
 

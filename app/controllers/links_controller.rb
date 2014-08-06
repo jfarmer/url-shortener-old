@@ -54,9 +54,7 @@ class LinksController < ApplicationController
   end
 
   def require_authorization!
-    unless @link.editable_by?(current_user)
-      head :forbidden
-    end
+    head(:forbidden) unless @link.editable_by?(current_user)
   end
 
   def link_params

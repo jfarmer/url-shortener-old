@@ -27,8 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_logged_in!(url = root_url)
-    if logged_in?
-      redirect_to(url)
-    end
+    redirect_to(url) if logged_in?
   end
 end
