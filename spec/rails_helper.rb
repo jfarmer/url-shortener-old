@@ -1,3 +1,6 @@
+# Rails-specific configuration goes here.
+# For Rails-agnostic configuration, edit spec/spec_helper.rb.
+
 ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
