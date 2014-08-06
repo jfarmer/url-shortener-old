@@ -9,3 +9,4 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - 'bin/**/*'
+    - 'spec/**/*'
