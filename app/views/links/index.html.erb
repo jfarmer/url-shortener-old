@@ -8,31 +8,4 @@
 
 <%= link_to 'New Link', new_link_path %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Added</th>
-      <th>Short URL</th>
-      <th>Submitter</th>
-      <th>Clicks</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @links.each do |link| %>
-      <tr>
-        <td><%= time_ago_in_words(link.created_at) %> ago</td>
-        <td><%= link_to(link_url(link), link) %></td>
-        <td>
-          <% if link.user.present? %>
-            <%= link.user.email %>
-          <% else %>
-            N/A
-          <% end %>
-        </td>
-        <td><%= link.clicks_count %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'links/list', links: @links %>

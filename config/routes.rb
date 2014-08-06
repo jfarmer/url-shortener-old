@@ -13,9 +13,13 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create]
 
   controller :links do
-    get '/links/new',     action: 'new',    as: 'new_link'
-    post '/links',         action: 'create', as: 'links'
-    get '/l/:short_name', action: 'show',   as: 'link'
+    post   '/links',              action: 'create', as: 'links'
+    get    '/links/new',          action: 'new',    as: 'new_link'
+    get    '/l/:short_name/edit', action: 'edit',   as: 'edit_link'
+    get    '/l/:short_name',      action: 'show',   as: 'link'
+    put    '/l/:short_name',      action: 'update'
+    patch  '/l/:short_name',      action: 'update'
+    delete '/l/:short_name',      action: 'destroy'
   end
 
   controller :sessions do

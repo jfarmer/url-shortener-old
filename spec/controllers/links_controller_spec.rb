@@ -4,6 +4,11 @@ RSpec.describe LinksController, type: :controller do
   let(:valid_attributes)   { FactoryGirl.attributes_for(:link) }
   let(:invalid_attributes) { { :short_name => "waffles" } }
   let(:logged_out_session) { {} }
+  let(:referrer)           { 'the-http-referrer' }
+
+  before(:each) do
+    request.env['HTTP_REFERER'] = referrer
+  end
 
   describe "GET index" do
     it "assigns all links as @links in descending order" do
@@ -35,6 +40,81 @@ RSpec.describe LinksController, type: :controller do
     it "assigns a new link as @link" do
       get :new, {}, logged_out_session
       expect(assigns(:link)).to be_a_new(Link)
+    end
+  end
+
+  describe 'GET edit' do
+    let(:link) { FactoryGirl.create(:link_with_user) }
+
+    behavior_when 'the user created the requested link'
+    behavior_when 'the user did not create the requested link'
+    behavior_when 'the user is not logged in'
+  end
+
+  describe 'PUT update' do
+    let!(:link) { FactoryGirl.create(:link_with_user) }
+
+    behavior_when "the user created the requested link" do
+      it 'destroys the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, { user_id: link.user_id }
+        }.to change(Link, :count).by(-1)
+      end
+
+      it 'redirects to the referrer' do
+        delete :destroy, {:short_name => link.to_param}, { user_id: link.user_id }
+        expect(response).to redirect_to(referrer)
+      end
+    end
+
+    behavior_when "the user did not create the requested link" do
+      it 'does not destroy the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, { user_id: other_user.id }
+        }.to_not change(Link, :count)
+      end
+    end
+
+    behavior_when "the user is not logged in" do
+      it 'does not destroy the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, {}
+        }.to_not change(Link, :count)
+      end
+    end
+  end
+
+
+  describe 'DELETE destroy' do
+    let!(:link) { FactoryGirl.create(:link_with_user) }
+
+    behavior_when "the user created the requested link" do
+      it 'destroys the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, { user_id: link.user_id }
+        }.to change(Link, :count).by(-1)
+      end
+
+      it 'redirects to the referrer' do
+        delete :destroy, {:short_name => link.to_param}, { user_id: link.user_id }
+        expect(response).to redirect_to(referrer)
+      end
+    end
+
+    behavior_when "the user did not create the requested link" do
+      it 'does not destroy the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, { user_id: other_user.id }
+        }.to_not change(Link, :count)
+      end
+    end
+
+    behavior_when "the user is not logged in" do
+      it 'does not destroy the requested link' do
+        expect {
+          delete :destroy, {:short_name => link.to_param}, {}
+        }.to_not change(Link, :count)
+      end
     end
   end
 
