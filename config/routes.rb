@@ -10,7 +10,7 @@
 Rails.application.routes.draw do
   root to: 'links#index'
 
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :show]
 
   controller :links do
     post   '/links',              action: 'create', as: 'links'

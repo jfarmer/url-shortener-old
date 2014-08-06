@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-  before_action :redirect_if_logged_in!
+  before_action :redirect_if_logged_in!, except: [:show]
+
+  def show
+    @user = User.find(params[:id])
+    @links = @user.links
+  end
 
   def new
     @user = User.new
